@@ -127,14 +127,9 @@ class HBNBCommand(cmd.Cmd):
         for i in range(1, len(args)):
             key_val = args[i].split("=")
             key_val[1] = key_val[1].replace('\"', '')
-            try:
-                key_val[1] = int(key_val[1])
-            except ValueError:
-                try:
-                    key_val[1] = float(key_val[1])
-                except ValueError:
-                    pass
 
+            if key_val[0] in self.types:
+                key_val[1] = self.types[key_val[0]](key_val[1])
             if key_val[0] == 'name':
                 key_val[1] = key_val[1].replace("_", " ")
 
