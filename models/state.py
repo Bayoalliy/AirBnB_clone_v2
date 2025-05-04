@@ -14,7 +14,6 @@ create, destroy, update and all used with State.
 """
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-from models.city import City
 from sqlalchemy import Column, Integer, String, ForeignKey
 from os import getenv
 
@@ -30,6 +29,7 @@ class State(BaseModel, Base):
 
         @property
         def cities(self):
+            from models.city import City
             cities_lst = []
             for k, v in storage.all().items():
                 if type(v) == City and v.state_id == self.id:

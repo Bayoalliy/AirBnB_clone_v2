@@ -131,7 +131,7 @@ class HBNBCommand(cmd.Cmd):
             key_val[1] = key_val[1].replace('\"', '')
             if key_val[0] in self.types:
                 key_val[1] = self.types[key_val[0]](key_val[1])
-            if '_' in key_val[1]:
+            if '_' in str(key_val[1]):
                 key_val[1] = key_val[1].replace("_", " ")
 
             setattr(new_instance, key_val[0], key_val[1])
@@ -222,7 +222,7 @@ class HBNBCommand(cmd.Cmd):
             for v in storage.all(args).values():
                 print_list.append(str(v))
         else:
-            for v in storage.all(args).values():
+            for v in storage.all().values():
                 print_list.append(str(v))
 
         print(print_list)
