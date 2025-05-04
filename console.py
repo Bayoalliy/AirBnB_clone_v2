@@ -131,7 +131,7 @@ class HBNBCommand(cmd.Cmd):
             key_val[1] = key_val[1].replace('\"', '')
             if key_val[0] in self.types:
                 key_val[1] = self.types[key_val[0]](key_val[1])
-            if key_val[0] == 'name' or key_val[0] == 'description':
+            if '_' in key_val[1]:
                 key_val[1] = key_val[1].replace("_", " ")
 
             setattr(new_instance, key_val[0], key_val[1])
