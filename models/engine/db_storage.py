@@ -43,8 +43,6 @@ class DBStorage():
                 cls = eval(cls)
             query = self.__session.query(cls).all()
             for elem in query:
-                if '_sa_instance_state' in elem.__dict__.keys():
-                    del elem.__dict__['_sa_instance_state']
                 dic['{}.{}'.format(elem.__class__.__name__, elem.id)] = elem
 
         else:

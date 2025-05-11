@@ -1,10 +1,5 @@
 #!/usr/bin/python3
 from models import *
-from models.state import State
-from models.city import City
-from models.user import User
-from models.place import Place
-from models.amenity import Amenity
 
 all_places = {}
 try:
@@ -17,14 +12,21 @@ if len(all_places) == 0:
         all_places = storage.all(Place)
     except:
         all_places = storage.all("Place")
-    
+
+from sqlalchemy import inspect
+
+for place in all_places.values():
+    try:
+        inspect(place)
+    except:
+        print("Unmapped place:", place)
 
 places_by_name = {}
 
 for p_id in all_places.keys():
     place = all_places[p_id]
     places_by_name[place.name] = place
-
+print(places_by_name)
 
 for p_name in sorted(places_by_name.keys()):
     place = places_by_name[p_name]
