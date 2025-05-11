@@ -4,7 +4,6 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import String, Float, Column, Integer, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from os import getenv
-from models.review import Review
 
 
 place_amenity = Table(
@@ -45,7 +44,6 @@ class Place(BaseModel, Base):
 
     else:
         from models import storage
-        from model.amenity import Amenity
         city_id = ""
         user_id = ""
         name = ""
