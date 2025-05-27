@@ -10,6 +10,7 @@ import os
 
 
 def do_pack():
+    """creates a .tzg file from web_static"""
     if not os.path.exists('versions'):
         local('mkdir -p versions')
     d = datetime.now()
