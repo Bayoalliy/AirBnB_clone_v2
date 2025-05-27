@@ -7,3 +7,4 @@ mkdir -p /data/web_static/shared/
 ln -sfn /data/web_static/releases/test/ /data/web_static/releases/test/
 sudo chown -R ubuntu:ubuntu /data/
 sed '/location/i \\tlocation \/hbnb_static {\n\t\talias \/data\/web_static\/current\/;\n\t}' /etc/nginx/sites-available/default
+sudo service nginx restart
