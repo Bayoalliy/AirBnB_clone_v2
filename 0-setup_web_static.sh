@@ -6,5 +6,5 @@ echo "Hello world!" > /data/web_static/releases/test/index.html
 mkdir -p /data/web_static/shared/
 ln -sfn /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
-sed '/location/i \\tlocation \/hbnb_static/ {\n\t\talias \/data\/web_static\/current\/;\n\t}' /etc/nginx/sites-available/default
+sed -i '/location/i \\tlocation \/hbnb_static/ {\n\t\talias \/data\/web_static\/current\/;\n\t}' /etc/nginx/sites-available/default
 sudo service nginx restart
