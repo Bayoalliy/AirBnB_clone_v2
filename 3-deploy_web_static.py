@@ -26,10 +26,8 @@ def do_pack():
         return None
 
 
-
-
-def do_deploy(archive_path):                                              """deploys a .tzg file from web_static to remote server"""
-
+def do_deploy(archive_path):
+    """deploys a .tzg file from web_static to remote server"""
     if not os.path.exists(archive_path):
         return False
 
