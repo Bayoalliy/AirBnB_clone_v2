@@ -22,13 +22,13 @@ def do_deploy(archive_path):
     try:
         put(archive_path, '/tmp/')
         file_name = archive_path.split('/')[-1]
-        f = file_name[:-4]
+        f = file_name.split('.')[0]
         f_path = "/data/web_static/releases/{}".format(f)
         run('mkdir {}'.format(f_path))
         run('tar -xvzf /tmp/{} -C {}'.format(file_name, f_path))
         run('rm /tmp/{}'.format(file_name))
         run('mv {}/web_static/* {}'.format(f_path, f_path))
-        # run(f'rm -r {f_path}/web_static'.format(f_path))
+        run('rm -r {}/web_static'.format(f_path))
         run('rm -r /data/web_static/current')
         run('ln -sf {} /data/web_static/current'.format(f_path))
         return True
