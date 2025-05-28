@@ -21,9 +21,11 @@ def do_deploy(archive_path):
     try:
         put(archive_path, '/tmp/')
         file_name = archive_path.split('/')[-1]
-        run(f'tar -xvzf /tmp/{file_name} -C /data/web_static/releases/')
+        run(f'mkdir /data/web_static/releases/{file_name[:-4]}')
+        run(f'tar -xvzf /tmp/{file_name} -C /data/web_static/releases/{file_name[:-4]}')
         run(f'rm /tmp/{file_name}')
-        run(f'ln -sfn /data/web_static/releases/{file_name} \
+        run('rm -r /data/web_static/current')
+        run(f'ln -sf /data/web_static/releases/{file_name[:-4]} \
                 /data/web_static/current')
         return True
     except:
