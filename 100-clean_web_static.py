@@ -38,7 +38,7 @@ def remote_clean(n):
             lst = lst[int(n):]
 
     for file in lst:
-        sudo('rm -r versions/{}'.format(file))
+        sudo('rm -r /data/web_static/releases/{}'.format(file))
 
 
 def do_clean(number=0):
