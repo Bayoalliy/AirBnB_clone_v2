@@ -12,10 +12,9 @@ exec {'install nginx':
 
 service {'nginx':
     ensure  => 'running',
-    enabled => true,
 }
 
-file {'/data/web_static/releases/test/':
+file {'/data/web_static/releases/test':
     ensure  => 'directory',
     recurse => true,
 }
@@ -25,7 +24,7 @@ file {'/data/web_static/releases/test/index.html':
     content => 'Hello world!',
 }
 
-file {'/data/web_static/shared/':
+file {'/data/web_static/shared':
     ensure  => 'directory',
     recurse => true,
 }
@@ -36,7 +35,7 @@ exec {'symlink current':
 }
 
 exec {'change ownership':
-    command => 'sudo chown -R ubuntu:ubuntu /data/',
+    command => 'sudo chown -R ubuntu:ubuntu /data',
     path    => ['/usr/bin', '/usr/sbin'],
 }
 
