@@ -54,4 +54,4 @@ def deploy():
     if not res:
         return False
 
-    do_deploy(res)
+    return do_deploy(res)
