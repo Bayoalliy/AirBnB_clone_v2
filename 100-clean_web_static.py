@@ -18,7 +18,7 @@ def local_clean(n):
     if res.succeeded:
         lst = sorted(res.splitlines())
         lst = lst[::-1]
-        if not n:
+        if not int(n):
             lst = lst[1:]
         else:
             lst = lst[int(n):]
@@ -32,7 +32,7 @@ def remote_clean(n):
     if res.succeeded:
         lst = sorted(res.splitlines())
         lst = lst[::-1]
-        if not n:
+        if not int(n):
             lst = lst[1:]
         else:
             lst = lst[int(n):]
