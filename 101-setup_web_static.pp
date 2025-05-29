@@ -14,9 +14,17 @@ service {'nginx':
     ensure  => 'running',
 }
 
-file {'/data/web_static/releases/test':
+file { '/data':
     ensure  => 'directory',
     recurse => true,
+    owner   => ubuntu,
+    group   => ubuntu
+} -> file { '/data/web_static':
+    ensure => 'directory'
+} -> file { '/data/web_static/releases':
+    ensure => 'directory'
+} -> file { '/data/web_static/releases/test':
+    ensure => 'directory'
 }
 
 file {'/data/web_static/releases/test/index.html':
@@ -34,10 +42,10 @@ exec {'symlink current':
     path    => ['/usr/bin', '/usr/sbin'],
 }
 
-exec {'change ownership':
-    command => 'sudo chown -R ubuntu:ubuntu /data',
-    path    => ['/usr/bin', '/usr/sbin'],
-}
+#exec {'change ownership':
+#    command => 'sudo chown -R ubuntu:ubuntu /data',
+#    path    => ['/usr/bin', '/usr/sbin'],
+#}
 
 exec {'configure nginx':
     command => 'sed -i \'/pass PHP/i \\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\' /etc/nginx/sites-available/default',
@@ -45,6 +53,6 @@ exec {'configure nginx':
 }
 
 exec {'restart nginx':
-    command => 'sudo service nginx restart',
+    command => 'service nginx restart',
     path    => ['/usr/bin', '/usr/sbin'],
 }
