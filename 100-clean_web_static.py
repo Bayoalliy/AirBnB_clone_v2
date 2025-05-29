@@ -28,7 +28,7 @@ def local_clean(n):
 
 
 def remote_clean(n):
-    res = run('ls /data/web_static/releases', capture=True)
+    res = run('ls /data/web_static/releases')
     if res.succeeded:
         lst = sorted(res.splitlines())
         lst = lst[::-1]
