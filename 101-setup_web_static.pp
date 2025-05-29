@@ -42,10 +42,10 @@ exec {'symlink current':
     path    => ['/usr/bin', '/usr/sbin'],
 }
 
-#exec {'change ownership':
-#    command => 'sudo chown -R ubuntu:ubuntu /data',
-#    path    => ['/usr/bin', '/usr/sbin'],
-#}
+exec {'change ownership':
+    command => 'sudo chown -R ubuntu:ubuntu /data',
+    path    => ['/usr/bin', '/usr/sbin'],
+}
 
 exec {'configure nginx':
     command => 'sed -i \'/pass PHP/i \\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\' /etc/nginx/sites-available/default',
