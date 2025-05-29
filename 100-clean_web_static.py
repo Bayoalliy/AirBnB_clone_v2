@@ -30,13 +30,13 @@ def local_clean(n):
 def remote_clean(n):
     res = run('ls /data/web_static/releases')
     if res.succeeded:
-        lst = sorted(res.splitlines())
+        lst = sorted(res.split(' '))
+        lst = [f for f in lst if f.startswith("web_static")]
         lst = lst[::-1]
         if not int(n):
             lst = lst[1:]
         else:
             lst = lst[int(n):]
-
     for file in lst:
         sudo('rm -r /data/web_static/releases/{}'.format(file))
 
