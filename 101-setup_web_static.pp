@@ -16,9 +16,6 @@ service {'nginx':
 
 file { '/data':
     ensure  => 'directory',
-    recurse => true,
-    owner   => ubuntu,
-    group   => ubuntu
 } -> file { '/data/web_static':
     ensure => 'directory'
 } -> file { '/data/web_static/releases':
@@ -48,11 +45,11 @@ exec {'change ownership':
 }
 
 exec {'configure nginx':
-    command => 'sed -i \'/pass PHP/i \\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\' /etc/nginx/sites-available/default',
+    command => 'sed -i \'/pass PHP/i\\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\' /etc/nginx/sites-available/default',
     path    => ['/usr/bin', '/usr/sbin'],
 }
 
 exec {'restart nginx':
-    command => 'service nginx restart',
+    command => 'sudo service nginx restart',
     path    => ['/usr/bin', '/usr/sbin'],
 }
