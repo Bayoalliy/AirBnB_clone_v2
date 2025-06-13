@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import String, Float, Column, Integer, ForeignKey, Table
 from sqlalchemy.orm import relationship
+import models
 from os import getenv
 
 
@@ -20,22 +21,21 @@ place_amenity = Table(
 
 class Place(BaseModel, Base):
     """ A place to stay """
+    __tablename__ = "places"
+    city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
+    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+    name = Column(String(60), nullable=False)
+    description = Column(String(60))
+    number_rooms = Column(Integer, nullable=False, default=0)
+    number_bathrooms = Column(Integer, nullable=False, default=0)
+    max_guest = Column(Integer, nullable=False, default=0)
+    price_by_night = Column(Integer, nullable=False, default=0)
+    latitude = Column(Float)
+    longitude = Column(Float)
+    amenity_ids = []
+
     if getenv("HBNB_TYPE_STORAGE") == "db":
-        __tablename__ = "places"
-        city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
-        user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
-        name = Column(String(60), nullable=False)
-        description = Column(String(60))
-        number_rooms = Column(Integer, nullable=False, default=0)
-        number_bathrooms = Column(Integer, nullable=False, default=0)
-        max_guest = Column(Integer, nullable=False, default=0)
-        price_by_night = Column(Integer, nullable=False, default=0)
-        latitude = Column(Float)
-        longitude = Column(Float)
-        amenity_ids = []
-        user = relationship('User', back_populates='places')
-        cities = relationship('City', back_populates='places')
-        reviews = relationship('Review', back_populates='place', cascade="all, delete-orphan")
+        reviews = relationship('Review', backref='place', cascade="all, delete-orphan")
 
         amenities = relationship(
                 'Amenity', secondary=place_amenity,
@@ -44,33 +44,20 @@ class Place(BaseModel, Base):
                 )
 
     else:
-        from models import storage
-        city_id = ""
-        user_id = ""
-        name = ""
-        description = ""
-        number_rooms = 0
-        number_bathrooms = 0
-        max_guest = 0
-        price_by_night = 0
-        latitude = 0.0
-        longitude = 0.0
-        amenity_ids = []
-
         @property
         def reviews(self):
-            return [obj for obj in storage.all().values() if type(obj) == Review and obj.place_id == self.id]
+            return [obj for obj in models.storage.all().values() if type(obj) == Review and obj.place_id == self.id]
 
         @property
         def amenities(self):
             lst = []
-            for val in storage.all().values():
-                if type(val) == Amenity and self.id in val.amenity_ids:
+            for val in models.storage.all().values():
+                if type(val).__name__ is 'Amenity' and val.id in self.amenity_ids:
                     lst.append(val)
             return lst
 
         @amenities.setter
         def amenities(self, value):
-            if type(value) == Amenity:
+            if type(value).__name__ is 'Amenity':
                 self.amenity_ids.append(value.id)
 

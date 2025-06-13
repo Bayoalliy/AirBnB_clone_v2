@@ -19,19 +19,15 @@ from os import getenv
 
 class State(BaseModel, Base):
     """inherits from BaseModel and defines the state object"""
-    if getenv("HBNB_TYPE_STORAGE") == 'db':
-        __tablename__ = 'states'
-        name = Column(String(128), nullable=False)
-        cities = relationship('City', back_populates='state', cascade="all, delete-orphan")
-    else:
-        from models import storage
-        name = ""
+    __tablename__ = 'states'
+    name = Column(String(128), nullable=False)
+    cities = relationship('City', backref='state', cascade="all, delete-orphan")
 
-        @property
-        def cities(self):
-            from models.city import City
-            cities_lst = []
-            for k, v in storage.all().items():
-                if type(v) == City and v.state_id == self.id:
-                    cities_lst.push(v)
-            return cities_lst
+    @property
+    def cities(self):
+        from models.city import City
+        cities_lst = []
+        for k, v in storage.all().items():
+            if type(v) == City and v.state_id == self.id:
+                cities_lst.push(v)
+        return cities_lst
