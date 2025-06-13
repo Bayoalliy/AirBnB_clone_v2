@@ -13,7 +13,8 @@ Base = declarative_base()
 class BaseModel:
     """A base class for all hbnb models"""
 
-    id = Column(String(60), nullable=False, primary_key=True, default=lambda: str(uuid.uuid4()))
+    id = Column(String(60), nullable=False, primary_key=True,
+                default=lambda: str(uuid.uuid4()))
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
@@ -40,7 +41,8 @@ class BaseModel:
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        dic = {k: v for k, v in self.__dict__.items() if k != '_sa_instance_state'}
+        dic = {k: v for k, v in self.__dict__.items()
+               if k != '_sa_instance_state'}
         return '[{}] ({}) {}'.format(cls, self.id, dic)
 
     def save(self):

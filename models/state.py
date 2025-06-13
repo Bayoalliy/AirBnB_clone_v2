@@ -18,11 +18,14 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from os import getenv
 import models
 
+
 class State(BaseModel, Base):
     """inherits from BaseModel and defines the state object"""
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
-    cities = relationship('City', backref='state', cascade="all, delete-orphan")
+    cities = relationship(
+        'City', backref='state', cascade="all, delete-orphan"
+        )
 
     @property
     def cities(self):

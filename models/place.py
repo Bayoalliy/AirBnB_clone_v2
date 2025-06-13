@@ -11,11 +11,11 @@ place_amenity = Table(
     'place_amenity',
     Base.metadata,
     Column('place_id', String(60),
-    ForeignKey('places.id'), primary_key=True,
-    nullable=False),
+           ForeignKey('places.id'), primary_key=True,
+           nullable=False),
     Column('amenity_id', String(60),
-    ForeignKey('amenities.id'), primary_key=True,
-    nullable=False)
+           ForeignKey('amenities.id'), primary_key=True,
+           nullable=False)
     )
 
 
@@ -35,7 +35,10 @@ class Place(BaseModel, Base):
     amenity_ids = []
 
     if getenv("HBNB_TYPE_STORAGE") == "db":
-        reviews = relationship('Review', backref='place', cascade="all, delete-orphan")
+        reviews = relationship(
+            'Review', backref='place',
+            cascade="all, delete-orphan"
+            )
 
         amenities = relationship(
                 'Amenity', secondary=place_amenity,
@@ -46,18 +49,17 @@ class Place(BaseModel, Base):
     else:
         @property
         def reviews(self):
-            return [obj for obj in models.storage.all().values() if type(obj) == Review and obj.place_id == self.id]
+            lst = []
+            for obj in models.storage.all().values():
+                if type(obj) == Review and obj.place_id == self.id:
+                    lst.append(obj)
+            return lst
 
         @property
         def amenities(self):
-            lst = []
-            for val in models.storage.all().values():
-                if type(val).__name__ is 'Amenity' and val.id in self.amenity_ids:
-                    lst.append(val)
-            return lst
+            return self.amenity_ids
 
         @amenities.setter
         def amenities(self, value):
-            if type(value).__name__ is 'Amenity':
+            if type(value).__name__ == 'Amenity':
                 self.amenity_ids.append(value.id)
-
