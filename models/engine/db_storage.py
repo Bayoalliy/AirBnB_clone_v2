@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/python3
 """
 This module manages our database storage.
 a class is created in this respect.
