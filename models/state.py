@@ -16,6 +16,7 @@ from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, ForeignKey
 from os import getenv
+import models
 
 class State(BaseModel, Base):
     """inherits from BaseModel and defines the state object"""
@@ -27,7 +28,7 @@ class State(BaseModel, Base):
     def cities(self):
         from models.city import City
         cities_lst = []
-        for k, v in storage.all().items():
+        for k, v in models.storage.all().items():
             if type(v) == City and v.state_id == self.id:
-                cities_lst.push(v)
+                cities_lst.append(v)
         return cities_lst
