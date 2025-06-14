@@ -22,12 +22,12 @@ from models.state import State
 
 
 app = Flask(__name__)
-state_dic = storage.all(State)
+state_lst = storage.all(State).values()
 
 
 @app.route("/states_list", strict_slashes=False)
 def list_of_states():
-    return render_template('7-states_list.html', dic=state_dic)
+    return render_template('7-states_list.html', lst=state_lst)
 
 
 @app.teardown_appcontext
